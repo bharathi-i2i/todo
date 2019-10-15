@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <title>To-Do</title>
+        <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="to-do-icon"><span><img src = "img/nine-points1.svg" /></span></div>
+                <div class="to-do"><b>To-Do</b></div>
+                <div class="search-bar">
+                    <i class="fa fa-search"></i> 
+                    <input type="text" class="submit" placeholder="Search"/>
+                </div>
+                <div class="settings-icon">
+                        <i class="fa fa-cog "></i> 
+                </div>
+            </div>
+            <div class="main-body">
+                <div id="menu-bar" class="menu-bar">
+                    <div id="main-menu" class="menu">
+                        <button>
+                            <input type="hidden" id="menu" value="closed">
+                            <img src = "img/menu-of-three-lines.svg"/>
+                        </button>
+                    </div>
+                    <ul id="list-menu">
+                        <li>
+                            <div class="my-day">
+                                <span><img src = "img/brightness.svg"/></span>
+                                <span class="left-side-menu">My Day</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="my-day">
+                                <span><img src = "img/star-1.svg"/></span>
+                                <span class="left-side-menu">Important</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="my-day">
+                                <span><img src = "img/calendar-1.svg"/></span>
+                                <span class="left-side-menu">Planned</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="my-day">
+                                <span><img src = "img/user.svg"/></span>
+                                <span class="left-side-menu">Assigned to Me</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="my-day">
+                                <span><img src = "img/home.svg"/></span>
+                                <span class="left-side-menu">Tasks</span>
+                            </div>
+                        </li>
+                        <div id="new-created-list">
+                        </div>
+                    </ul>
+                    <div id="add-task" class="my-day">
+                        <span><img src = "img/add.svg"/></span>
+                        <span class="left-side-menu"><input type="text" id="new-list" placeholder="New List" /></span>
+                    </div>
+                </div>
+                <div id="sub-task-body" class="sub-task-body">
+                    <span id="task-title" class="task-title"><b>Tasks</b></span>
+                    <div id = "sub-task">
+                    </div>
+                    <div id="enter-sub-task" >
+                        <span><img src = "img/add.svg"/></span>
+                        <span><input type="text" id="enter-task" placeholder="Add Task" /></span>
+                    </div>
+                </div>
+                <div id="step-body" class="step-body">
+                    <span id="sub-task-name"></span>
+                    <div id="step-name">
+                    </div>
+                    <div id="step-query">
+                        <span><input type="text" id="enter-step" placeholder="Add Step"/></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/to-do.js"></script>
+    </body>
+</html>

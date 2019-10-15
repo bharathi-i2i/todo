@@ -1,0 +1,138 @@
+body {
+    margin:0;
+    font-family: "Segoe","Segoe UI","Arial","sans-serif";
+}
+.container {
+    background-color: rgb(255, 255, 255);
+}
+.header {
+    background-color: #0078d7;
+    min-height: 3rem;
+    color:#fff2ee;
+    display:flex;
+}
+.to-do-icon {
+    margin: 1rem;
+}
+.to-do {
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+    font-size: 15.4px;
+}
+img {
+    width:1rem;
+}
+.search-bar {
+    height: 2rem;
+    margin-top: 0.5rem;
+    margin-left: 26.8rem;
+    width: 26%;
+    border-radius: 0.1em;
+    background-color: #e7e7e7;
+}
+.submit{
+    border-style:hidden;
+    background-color: transparent;
+    color:#0078d7;
+    padding-left: 0.5rem;
+}
+.search-bar input::placeholder {
+    color:#346fef;
+}
+.search-bar:hover{
+    background-color: #f4f4f4;
+}
+.fa.fa-search {
+    color:#0078d7;
+    transform: rotate(90deg);
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+}
+.settings-icon {
+    margin-top: 1rem;
+    margin-left: 3rem;
+}
+.main-body {
+    display: flex;
+    height: 80%;
+}
+.menu-bar {
+    transition: 0.3s;
+    background-color: #f4f4f4;
+    width: 2.8%;
+    height: 112%;
+    padding-top: 1.7rem;
+    padding-left: 0.5rem;
+}
+button {
+    border:none;
+    background-color: transparent;
+    outline: none;
+}
+ul {
+    list-style: none;
+    padding: 0.5rem;
+    padding-top: 1.2rem;
+}
+.left-side-menu {
+    padding-left: 0.5rem;
+    font-size: 0.87rem;
+    color:#34373d;
+    display: none;
+}
+li {
+    padding-bottom: 1.3rem;
+}
+.my-day {
+    display:flex;
+}
+.menu-bar-open {
+    width: 18.5%;
+}
+.menu-bar-close {
+   width: 2.8%;
+}
+.menu-name-visible {
+    display: block;
+}
+.menu-name-hide {
+    display: none;
+}
+div#add-task {
+    padding-left: 0.5rem;
+}
+div#new-created-list {
+    margin-top: 1rem;
+}
+input[type="text"] {
+    border-style: none;
+    background: transparent;
+    outline: none;
+}
+input[type="text"]::placeholder{
+    color: #5088f6;
+}
+.new-list {
+    display: flex;
+    padding-bottom: 1.3rem;
+}
+span#task-title {
+    color: #3e69e4;
+}
+.sub-task-body {
+    background-color: #f1fffe;
+    height: 117.3%;
+    width: 100%;
+}
+.step-body {
+    background-color: #ebebeb;
+    width:0%;
+    height: 117.3%;
+    overflow: hidden;
+}
+.reduce-width {
+    width: 70%;
+}
+.increase-width {
+    width: 30%;
+}

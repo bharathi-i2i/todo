@@ -7,6 +7,7 @@ var subTaskInfo = "";
 var stepInfo = "";
 
 var subTask = getElementById("sub-task");
+var step = getElementById("step-name");
 
 /**
  * Used to bind all event listeners in the initial load of the page. 
@@ -141,7 +142,7 @@ function addStep(event) {
         newStep.name = stepQuery.value;
         newStep.status = Boolean(true);
         subTaskInfo.steps.push(newStep);
-        addStep(newStep);
+        addNewStep(newStep);
     }
 }
 
@@ -226,8 +227,9 @@ function addNewSubTask(newSubTask) {
     newCreatedDiv.setAttribute("class","new-sub-task");
     spanListName.className = "middle-sub-task";
     subTaskInfo = newSubTask; 
+    step.innerHTML = "";
     spanListName.innerHTML = newSubTask.name;
-    spanListName.addEventListener("click",currentSubTask.bind(newSubTask));
+    addEventListeners(spanListName,"click",currentSubTask.bind(newSubTask));
     newCreatedDiv.appendChild(spanListName);
     subTask.appendChild(newCreatedDiv);
     subTaskQuery.value="";
@@ -238,7 +240,7 @@ function addNewSubTask(newSubTask) {
  * 
  * @param {*} newStep contains the details of sub task. 
  */
-function addStep(newStep) {
+function addNewStep(newStep) {
     var subTaskBody = getElementById("sub-task-body");
     subTaskBody.setAttribute("class","sub-task-body reduce-width");
     var stepQuery = getElementById("enter-step");
@@ -247,8 +249,7 @@ function addStep(newStep) {
     newCreatedDiv.setAttribute("class","new-step");
     spanListName.className = "step-info";
     stepInfo = newStep;
-    spanListName.innerHTML = newStep.name;
-    //spanListName.addEventListener("click",currentSubTask.bind(newSubTask));
+    spanListName.innerHTML = newStep.name;  
     newCreatedDiv.appendChild(spanListName);
     getElementById("step-name").appendChild(newCreatedDiv);
     stepQuery.value="";
@@ -266,9 +267,11 @@ function displaySubTasks() {
         newCreatedDiv.setAttribute("class","new-sub-task");
         spanListName.className = "middle-sub-task";
         spanListName.innerHTML = allSubTasks[index].name;
+        addEventListeners(spanListName,"click",currentSubTask.bind(allSubTasks[index]));
         newCreatedDiv.appendChild(spanListName);
         subTask.appendChild(newCreatedDiv);
     }
+    //console.log(listInfo);
 }
 
 /**
@@ -289,6 +292,7 @@ function displaySteps() {
         spanListName.className = "step-info";
         spanListName.innerHTML = allSteps[index].name;
         newCreatedDiv.appendChild(spanListName);
-        subTask.appendChild(newCreatedDiv);
+        step.appendChild(newCreatedDiv);
     }
+    console.log(listInfo);
 }

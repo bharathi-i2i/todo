@@ -14,7 +14,7 @@ var step = getElementById("step-name");
  */
 function init() {
     addEventListeners(getElementById("main-menu"),"click",openMenu);
-    addEventListeners(getElementById("add-task"),"click",openMenuTask);
+    addEventListeners(getElementById("add-task"),"click",openMenuForPlusIcon);
     addEventListeners(getElementById("new-list"),"keyup",addTask);
     addEventListeners(getElementById("enter-task"),"keyup",addSubTask);
     addEventListeners(getElementById("enter-step"),"keyup",addStep);
@@ -74,7 +74,7 @@ function openMenu() {
 /**
  * Used to open the menu bar while click plus icon.
  */
-function openMenuTask() {
+function openMenuForPlusIcon() {
     var leftMenu = getElementById("menu");
     var menuDiv = getElementById("menu-bar");
     var menuNames = getElementByClassName("left-side-menu");
@@ -125,7 +125,8 @@ function addSubTask(event) {
         newSubTask.status = Boolean(true);
         newSubTask.steps = [];
         listInfo.subTask.push(newSubTask);
-        addNewSubTask(newSubTask);   
+        addNewSubTask(newSubTask);
+        subTaskQuery.value="";
     }
 }
 
@@ -143,6 +144,7 @@ function addStep(event) {
         newStep.status = Boolean(true);
         subTaskInfo.steps.push(newStep);
         addNewStep(newStep);
+        stepQuery.value="";
     }
 }
 
@@ -189,9 +191,6 @@ function currentTask() {
     taskName.textContent = this.name;
     listInfo = this;
     displaySubTasks();
-    var taskQuery = getElementById("enter-task");
-    taskQuery.value = "";
-    taskQuery.focus();
 }
 
 /**
@@ -221,7 +220,6 @@ function generateId () {
  * @param {*} newSubTask contains the details of current sub task. 
  */
 function addNewSubTask(newSubTask) {
-    var subTaskQuery = getElementById("enter-task");
     var newCreatedDiv = createElement("div");
     var spanListName = createElement("span");
     newCreatedDiv.setAttribute("class","new-sub-task");
@@ -232,7 +230,6 @@ function addNewSubTask(newSubTask) {
     addEventListeners(spanListName,"click",currentSubTask.bind(newSubTask));
     newCreatedDiv.appendChild(spanListName);
     subTask.appendChild(newCreatedDiv);
-    subTaskQuery.value="";
 }
 
 /**
@@ -243,7 +240,6 @@ function addNewSubTask(newSubTask) {
 function addNewStep(newStep) {
     var subTaskBody = getElementById("sub-task-body");
     subTaskBody.setAttribute("class","sub-task-body reduce-width");
-    var stepQuery = getElementById("enter-step");
     var newCreatedDiv = createElement("div");
     var spanListName = createElement("span");
     newCreatedDiv.setAttribute("class","new-step");
@@ -252,7 +248,6 @@ function addNewStep(newStep) {
     spanListName.innerHTML = newStep.name;  
     newCreatedDiv.appendChild(spanListName);
     getElementById("step-name").appendChild(newCreatedDiv);
-    stepQuery.value="";
 }
 
 /**
@@ -271,7 +266,7 @@ function displaySubTasks() {
         newCreatedDiv.appendChild(spanListName);
         subTask.appendChild(newCreatedDiv);
     }
-    //console.log(listInfo);
+
 }
 
 /**

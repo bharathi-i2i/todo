@@ -23,18 +23,21 @@ img {
     width:1rem;
 }
 .search-bar {
+    display: flex;
     height: 2rem;
     margin-top: 0.5rem;
     margin-left: 26.8rem;
     width: 26%;
     border-radius: 0.1em;
-    background-color: #e7e7e7;
+    background-color: #c3dcf7;
 }
 .submit{
     border-style:hidden;
     background-color: transparent;
     color:#0078d7;
     padding-left: 0.5rem;
+    width: 100%;
+    height: 100%;
 }
 .search-bar input::placeholder {
     color:#346fef;
@@ -42,15 +45,17 @@ img {
 .search-bar:hover{
     background-color: #f4f4f4;
 }
-.fa.fa-search {
+.search-img {
     color:#0078d7;
     transform: rotate(90deg);
-    margin-top: 0.5rem;
-    margin-left: 0.5rem;
+    margin-left: 1rem;
 }
-.settings-icon {
-    margin-top: 1rem;
-    margin-left: 3rem;
+.header-icons {
+    margin: 0.8rem 0.8rem 0.8rem 26.2rem;;
+    padding-top: 0.15rem;
+}
+.question {
+    padding-left:1.5rem;
 }
 .main-body {
     display: flex;
@@ -116,9 +121,7 @@ input[type="text"]::placeholder{
     display: flex;
     padding-bottom: 1.3rem;
 }
-span#task-title {
-    color: #3e69e4;
-}
+
 .sub-task-body {
     background-color: #f1fffe;
     height: 117.3%;
@@ -135,4 +138,36 @@ span#task-title {
 }
 .increase-width {
     width: 30%;
+}
+.task-name-on-sub-task {
+    padding: 1.5rem 2rem 1rem 2rem;
+    font-size: 1.3rem;
+    color: #3e69e4;
+    font-weight: bold;
+}
+.sub-task-name-on-step {
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #3e69e4;
+}
+.background-lines {
+    margin: 0px 24px;
+    flex: 1;
+    background: linear-gradient(180deg, white, white 52px, #e5e5e5 52px);
+    background-size: 100% 53px;
+    border-top: 1px solid #e5e5e5;
+}
+.new-sub-task, .enter-sub-task {
+    padding: 0.8rem 0rem 0.8rem 2rem;
+}
+.middle-sub-task, .enter-task, .step-info, .step-input{
+    padding-left:1rem;
+}
+.sub-task-input {
+    width: 90%;
+    font-size: 0.9rem;
+}
+.new-step, .step-query {
+    padding: 0.5rem 0rem 0.5rem 1rem;
 }

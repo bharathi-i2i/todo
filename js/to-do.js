@@ -6,27 +6,19 @@ var listInfo = "";
 var subTaskInfo = "";
 var stepInfo = "";
 
-var subTask = getElementById("sub-task");
-var step = getElementById("step-name");
+var step = takeComponentById("step-name");
 
 /**
  * Used to bind all event listeners in the initial load of the page. 
  */
 function init() {
-    addEventListeners(getElementById("main-menu"),"click",openMenu);
-    addEventListeners(getElementById("add-task"),"click",openMenuForPlusIcon);
-    addEventListeners(getElementById("new-list"),"keyup",addTask);
-    addEventListeners(getElementById("enter-task"),"keyup",addSubTask);
-    addEventListeners(getElementById("enter-step"),"keyup",addStep);
-}
-
-/**
- * Used to get the element by the help of the id. 
- * 
- * @param {*} id denotes the id of the element to be fetched.
- */
-function getElementById(id) {
-    return document.getElementById(id);
+    addEventListeners(takeComponentById("main-menu"),"click",openMenu);
+    addEventListeners(takeComponentById("add-task"),"click",openMenuForPlusIcon);
+    addEventListeners(takeComponentById("new-list"),"keyup",addTask);
+    addEventListeners(takeComponentById("enter-task"),"keyup",addSubTask);
+    addEventListeners(takeComponentById("enter-step"),"keyup",addStep);
+    addEventListeners(takeComponentById("task-name-on-sub-task"),"keyup",updateTaskName);
+    addEventListeners(takeComponentById("sub-task-name-on-step"),"keyup",updateSubTaskName);
 }
 
 /**
@@ -41,21 +33,46 @@ function addEventListeners(element,action,resultOperation) {
 }
 
 /**
+ * Used to get the element by the help of the id. 
+ * 
+ * @param {*} id denotes the id of the element to be fetched.
+ */
+function takeComponentById(id) {
+    return document.getElementById(id);
+}
+
+/**
  * Used to get the element by the help of the className. 
  * 
  * @param {*} className denotes the className of the element to be fetched.
  */
-function getElementByClassName(className) {
+function takeComponentByClassName(className) {
     return document.getElementsByClassName(className);
+}
+
+/**
+ * Used to get created element.
+ * 
+ * @param {*} element denotes type of element to be created.
+ */
+function buildComponent(element) {
+    return document.createElement(element);
+}
+
+/**
+ * Used to generate unique id to all based on date method.
+ */
+ function generateId () {
+    return new Date();
 }
 
 /**
  * Used to toggle the side menu bar.
  */
 function openMenu() {
-    var leftMenu = getElementById("menu");
-    var menuDiv = getElementById("menu-bar");
-    var menuNames = getElementByClassName("left-side-menu");
+    var leftMenu = takeComponentById("menu");
+    var menuDiv = takeComponentById("menu-bar");
+    var menuNames = takeComponentByClassName("left-side-menu");
     if (leftMenu.value === "closed") {
         menuDiv.setAttribute("class","menu-bar menu-bar-open");
         leftMenu.value = "opened";
@@ -75,9 +92,9 @@ function openMenu() {
  * Used to open the menu bar while click plus icon.
  */
 function openMenuForPlusIcon() {
-    var leftMenu = getElementById("menu");
-    var menuDiv = getElementById("menu-bar");
-    var menuNames = getElementByClassName("left-side-menu");
+    var leftMenu = takeComponentById("menu");
+    var menuDiv = takeComponentById("menu-bar");
+    var menuNames = takeComponentByClassName("left-side-menu");
     if (leftMenu.value === "closed") {
         menuDiv.setAttribute("class","menu-bar menu-bar-open");
         leftMenu.value = "opened";
@@ -93,9 +110,9 @@ function openMenuForPlusIcon() {
  * @param {*} event used to get the event keycode.
  */
 function addTask(event) {
-    var newListValue = getElementById("new-list");
-    var taskName = getElementById("task-title");
-    var taskQuery = getElementById("enter-task");
+    var newListValue = takeComponentById("new-list");
+    var taskName = takeComponentById("task-name-on-sub-task");
+    var taskQuery = takeComponentById("enter-task");
     if (event.keyCode === 13 && "" !== newListValue.value.trim()) {
         var newTask = {};
         newTask.id = generateId();
@@ -104,7 +121,7 @@ function addTask(event) {
         newTask.subTask = [];
         tasks.push(newTask);
         addNewList(newTask);
-        taskName.textContent = newTask.name;
+        taskName.value = newTask.name;
         taskQuery.value = "";
         taskQuery.focus();
         newListValue.value="";
@@ -117,7 +134,7 @@ function addTask(event) {
  * @param {*} event used to get the event keycode.
  */
 function addSubTask(event) {
-    var subTaskQuery = getElementById("enter-task");
+    var subTaskQuery = takeComponentById("enter-task");
     if (event.keyCode === 13 && "" !== subTaskQuery.value.trim()) {
         var newSubTask = {};
         newSubTask.id = generateId();
@@ -136,7 +153,7 @@ function addSubTask(event) {
  * @param {*} event used to get the event keycode.
  */
 function addStep(event) {
-    var stepQuery = getElementById("enter-step");
+    var stepQuery = takeComponentById("enter-step");
     if (event.keyCode === 13 && "" !== stepQuery.value.trim()) {
         var newStep = {};
         newStep.id = generateId();
@@ -149,12 +166,23 @@ function addStep(event) {
 }
 
 /**
- * Used to get created element.
  * 
- * @param {*} element denotes type of element to be created.
  */
-function createElement(element) {
-    return document.createElement(element);
+function updateTaskName(event) {
+    if (event.keyCode === 13) {
+        listInfo.name = takeComponentById("task-name-on-sub-task").value;
+        displayTasks();
+    }
+}
+
+/**
+ * 
+ */
+function updateSubTaskName(event) {
+    if (event.keyCode === 13) {
+        subTaskInfo.name = takeComponentById("sub-task-name-on-step").value;
+        displaySubTasks();
+    }
 }
 
 /**
@@ -163,11 +191,12 @@ function createElement(element) {
  * @param {*} newTask contains the details of new list.
  */
 function addNewList(newTask) {
-    var createdList = getElementById("new-created-list");
-    var newCreatedDiv = createElement("div");
-    var spanForImage = createElement("span");
-    var spanListName = createElement("span");
-    var listIcon = createElement("img");
+    var createdList = takeComponentById("new-created-list");
+    var subTask = takeComponentById("sub-task");
+    var newCreatedDiv = buildComponent("div");
+    var spanForImage = buildComponent("span");
+    var spanListName = buildComponent("span");
+    var listIcon = buildComponent("img");
     listIcon.setAttribute("src","img/bullet-list.svg");
     spanForImage.appendChild(listIcon);
     newCreatedDiv.setAttribute("class","new-list");
@@ -187,8 +216,8 @@ function addNewList(newTask) {
  * remains the input value focused on the sub task box.
  */
 function currentTask() {
-    var taskName = getElementById("task-title");
-    taskName.textContent = this.name;
+    var taskName = takeComponentById("task-name-on-sub-task");
+    taskName.value = this.name;
     listInfo = this;
     displaySubTasks();
 }
@@ -198,20 +227,13 @@ function currentTask() {
  * change the sub task title.
  */
 function currentSubTask() {
-    var subTaskName = getElementById("sub-task-name");
-    subTaskName.textContent = this.name;
+    var subTaskName = takeComponentById("sub-task-name-on-step");
+    subTaskName.value = this.name;
     subTaskInfo = this;
     displaySteps();
-    var step = getElementById("enter-step");
+    var step = takeComponentById("enter-step");
     step.value = "";
     step.focus();
-}
-
-/**
- * Used to generate unique id to all based on date method.
- */
-function generateId () {
-    return new Date();
 }
 
 /**
@@ -220,16 +242,25 @@ function generateId () {
  * @param {*} newSubTask contains the details of current sub task. 
  */
 function addNewSubTask(newSubTask) {
-    var newCreatedDiv = createElement("div");
-    var spanListName = createElement("span");
+    var subTask = takeComponentById("sub-task");
+    var newCreatedDiv = buildComponent("div");
+    var spanForImage = buildComponent("span");
+    var spanListName = buildComponent("span");
+    var spanForLine = buildComponent("div");
+    var listIcon = buildComponent("img");
+    listIcon.setAttribute("src","img/bullet-list.svg");
+    spanForImage.appendChild(listIcon);
     newCreatedDiv.setAttribute("class","new-sub-task");
     spanListName.className = "middle-sub-task";
+    spanForLine.className = "background-lines";
     subTaskInfo = newSubTask; 
     step.innerHTML = "";
     spanListName.innerHTML = newSubTask.name;
     addEventListeners(spanListName,"click",currentSubTask.bind(newSubTask));
+    newCreatedDiv.appendChild(spanForImage);
     newCreatedDiv.appendChild(spanListName);
     subTask.appendChild(newCreatedDiv);
+    subTask.appendChild(spanForLine);
 }
 
 /**
@@ -238,56 +269,105 @@ function addNewSubTask(newSubTask) {
  * @param {*} newStep contains the details of sub task. 
  */
 function addNewStep(newStep) {
-    var subTaskBody = getElementById("sub-task-body");
+    var subTaskBody = takeComponentById("sub-task-body");
     subTaskBody.setAttribute("class","sub-task-body reduce-width");
-    var newCreatedDiv = createElement("div");
-    var spanListName = createElement("span");
+    var newCreatedDiv = buildComponent("div");
+    var spanForImage = buildComponent("span");
+    var spanListName = buildComponent("span");
+    var spanForLine = buildComponent("div");
+    var listIcon = buildComponent("img");
+    listIcon.setAttribute("src","img/bullet-list.svg");
+    spanForImage.appendChild(listIcon);
     newCreatedDiv.setAttribute("class","new-step");
     spanListName.className = "step-info";
+    spanForLine.className = "background-lines";
     stepInfo = newStep;
     spanListName.innerHTML = newStep.name;  
+    newCreatedDiv.appendChild(spanForImage);
     newCreatedDiv.appendChild(spanListName);
-    getElementById("step-name").appendChild(newCreatedDiv);
+    takeComponentById("step-name").appendChild(newCreatedDiv);
+    takeComponentById("step-name").appendChild(spanForLine);
 }
 
+/**
+ * 
+ */
+function displayTasks() {
+    var task = takeComponentById("new-created-list");
+    task.innerHTML = "";
+    var allTasks = tasks;
+    for ( var index in tasks ) {
+        var newCreatedDiv = buildComponent("div");
+        var spanForImage = buildComponent("span");
+        var spanListName = buildComponent("span");
+        var listIcon = buildComponent("img");
+        listIcon.setAttribute("src","img/bullet-list.svg");
+        spanForImage.appendChild(listIcon);
+        newCreatedDiv.setAttribute("class","new-list");
+        spanListName.className = "left-side-menu";
+        spanListName.setAttribute("class","left-side-menu menu-name-visible");
+        listInfo = tasks[index];
+        spanListName.innerHTML = listInfo.name;
+        addEventListeners(spanListName,"click",currentTask.bind(listInfo));
+        newCreatedDiv.appendChild(spanForImage);
+        newCreatedDiv.appendChild(spanListName);
+        task.appendChild(newCreatedDiv);
+    }
+}
 /**
  * Used to display all sub tasks of specific task.
  */
 function displaySubTasks() {
+    var subTask = takeComponentById("sub-task");
     subTask.innerHTML = "";
     var allSubTasks = listInfo.subTask;
     for (var index in allSubTasks) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-        var newCreatedDiv = createElement("div");
-        var spanListName = createElement("span");
+        var newCreatedDiv = buildComponent("div");
+        var spanForImage = buildComponent("span");
+        var spanListName = buildComponent("span");
+        var spanForLine = buildComponent("div");
+        var listIcon = buildComponent("img");
+        listIcon.setAttribute("src","img/bullet-list.svg");
+        spanForImage.appendChild(listIcon);
         newCreatedDiv.setAttribute("class","new-sub-task");
         spanListName.className = "middle-sub-task";
         spanListName.innerHTML = allSubTasks[index].name;
         addEventListeners(spanListName,"click",currentSubTask.bind(allSubTasks[index]));
+        newCreatedDiv.appendChild(spanForImage);
         newCreatedDiv.appendChild(spanListName);
+        spanForLine.className = "background-lines";
         subTask.appendChild(newCreatedDiv);
+        subTask.appendChild(spanForLine);
     }
-
 }
 
 /**
  * Used to display all steps of specific sub tasks.
  */
 function displaySteps() {
-    var stepName = getElementById("step-name");
-    var subTaskBody = getElementById("sub-task-body");
+    var stepName = takeComponentById("step-name");
+    var subTaskBody = takeComponentById("sub-task-body");
     subTaskBody.setAttribute("class","sub-task-body reduce-width");
-    var stepBody = getElementById("step-body");
+    var stepBody = takeComponentById("step-body");
     stepBody.setAttribute("class","step-body increase-width");
     stepName.innerHTML = "";
     var allSteps = subTaskInfo.steps;
     for (var index in allSteps) {
-        var newCreatedDiv = createElement("div");
-        var spanListName = createElement("span");
+        var newCreatedDiv = buildComponent("div");
+        var spanForImage = buildComponent("span");
+        var spanListName = buildComponent("span");
+        var spanForLine = buildComponent("div");
+        var listIcon = buildComponent("img");
+        listIcon.setAttribute("src","img/bullet-list.svg");
+        spanForImage.appendChild(listIcon);
         newCreatedDiv.setAttribute("class","new-step");
         spanListName.className = "step-info";
         spanListName.innerHTML = allSteps[index].name;
+        newCreatedDiv.appendChild(spanForImage);
         newCreatedDiv.appendChild(spanListName);
+        spanForLine.className = "background-lines";
         step.appendChild(newCreatedDiv);
+        step.appendChild(spanForLine);
     }
     console.log(listInfo);
 }

@@ -7,13 +7,16 @@
         <div class="container">
             <div class="header">
                 <div class="to-do-icon"><span><img src = "img/nine-points1.svg" /></span></div>
-                <div class="to-do"><b>To-Do</b></div>
+                <div class="to-do"><b>To Do</b></div>
                 <div class="search-bar">
-                    <i class="fa fa-search"></i> 
+                    <img class="search-img" src="img/search.svg"/></i> 
                     <input type="text" class="submit" placeholder="Search"/>
                 </div>
-                <div class="settings-icon">
-                        <i class="fa fa-cog "></i> 
+                <div class="header-icons">
+                    <img src="img/settings.svg"></i>
+                    <img class="question" src="img/question.svg"></i> 
+                    <img class="question" src="img/advertising.svg"></i> 
+                    <img class="question" src="img/settings.svg"></i> 
                 </div>
             </div>
             <div class="main-body">
@@ -64,21 +67,27 @@
                     </div>
                 </div>
                 <div id="sub-task-body" class="sub-task-body">
-                    <span id="task-title" class="task-title"><b>Tasks</b></span>
+                    <input type="text" id="task-name-on-sub-task" class="task-name-on-sub-task" value="Tasks"/></span>
                     <div id = "sub-task">
                     </div>
-                    <div id="enter-sub-task" >
+                    <div id="enter-sub-task" class="enter-sub-task">
                         <span><img src = "img/add.svg"/></span>
-                        <span><input type="text" id="enter-task" placeholder="Add Task" /></span>
+                        <span class="enter-task">
+                            <input type="text" id="enter-task" class="sub-task-input" placeholder="Add Task" />
+                        </span>
                     </div>
+                    <div class="background-lines"></div>
                 </div>
                 <div id="step-body" class="step-body">
-                    <span id="sub-task-name"></span>
+                    <span id="sub-task-name" class="sub-task-name">
+                        <input type="text" id="sub-task-name-on-step" class="sub-task-name-on-step"/></span>
                     <div id="step-name">
                     </div>
-                    <div id="step-query">
-                        <span><input type="text" id="enter-step" placeholder="Add Step"/></span>
+                    <div id="step-query" class="step-query">
+                        <span><img src = "img/add.svg"/></span>
+                        <span><input type="text" id="enter-step" class="step-input" placeholder="Add Step"/></span>
                     </div>
+                    <div class="background-lines"></div>
                 </div>
             </div>
         </div>

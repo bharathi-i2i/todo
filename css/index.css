@@ -85,6 +85,19 @@ ul {
     color:#34373d;
     display: none;
 }
+.step-menu {
+    font-size: 0.77rem;
+    color:#8b7a95;
+    padding-left: 0.8rem;
+}
+.share {
+    padding-top: 0.2rem;
+    font-size: 0.8rem;
+    color:#3459c1;
+}
+.middle-heading-share {
+    padding: 2rem 0rem 0rem 27rem;
+}
 li {
     padding-bottom: 1.3rem;
 }
@@ -123,13 +136,16 @@ input[type="text"]::placeholder{
 }
 
 .sub-task-body {
-    background-color: #f1fffe;
+    background-color: #ffffff;
     height: 117.3%;
+    width: 100%;
+}
+.increase-sub-task-width {
     width: 100%;
 }
 .step-body {
     background-color: #ebebeb;
-    width:0%;
+    width: 0%;
     height: 117.3%;
     overflow: hidden;
 }
@@ -138,6 +154,13 @@ input[type="text"]::placeholder{
 }
 .increase-width {
     width: 30%;
+}
+.reduce-step-width {
+    width: 0%;
+}
+.step-div {
+    margin: 1rem;
+    background-color: #ffffff;
 }
 .task-name-on-sub-task {
     padding: 1.5rem 2rem 1rem 2rem;
@@ -170,4 +193,16 @@ input[type="text"]::placeholder{
 }
 .new-step, .step-query {
     padding: 0.5rem 0rem 0.5rem 1rem;
+}
+.step-menu-query {
+    padding: 1rem 0rem 1rem 1rem;
+}
+.step-note {
+    padding: 1rem 0rem 3rem 1rem;
+}
+.middle-heading {
+    display: flex;
+}
+.strike {
+    text-decoration: line-through;
 }

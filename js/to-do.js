@@ -112,8 +112,12 @@ function openMenuForPlusIcon() {
 function addTask(event) {
     var newListValue = takeComponentById("new-list");
     var taskName = takeComponentById("task-name-on-sub-task");
+    var subTaskBody = takeComponentById("sub-task-body");
+    var stepBody = takeComponentById("step-body");
     var taskQuery = takeComponentById("enter-task");
     if (event.keyCode === 13 && "" !== newListValue.value.trim()) {
+        subTaskBody.setAttribute("class","sub-task-body increase-sub-task-width");
+        stepBody.setAttribute("class","step-body reduce-step-width");
         var newTask = {};
         newTask.id = generateId();
         newTask.name = newListValue.value;
@@ -139,7 +143,7 @@ function addSubTask(event) {
         var newSubTask = {};
         newSubTask.id = generateId();
         newSubTask.name = subTaskQuery.value;
-        newSubTask.status = Boolean(true);
+        newSubTask.status = Boolean(false);
         newSubTask.steps = [];
         listInfo.subTask.push(newSubTask);
         addNewSubTask(newSubTask);
@@ -216,6 +220,10 @@ function addNewList(newTask) {
  * remains the input value focused on the sub task box.
  */
 function currentTask() {
+    var subTaskBody = takeComponentById("sub-task-body");
+    var stepBody = takeComponentById("step-body");
+    subTaskBody.setAttribute("class","sub-task-body increase-sub-task-width");
+    stepBody.setAttribute("class","step-body reduce-step-width");
     var taskName = takeComponentById("task-name-on-sub-task");
     taskName.value = this.name;
     listInfo = this;
@@ -256,6 +264,7 @@ function addNewSubTask(newSubTask) {
     subTaskInfo = newSubTask; 
     step.innerHTML = "";
     spanListName.innerHTML = newSubTask.name;
+    addEventListeners(spanForImage,"click",currentSubTask.bind(newSubTask));
     addEventListeners(spanListName,"click",currentSubTask.bind(newSubTask));
     newCreatedDiv.appendChild(spanForImage);
     newCreatedDiv.appendChild(spanListName);
@@ -370,4 +379,24 @@ function displaySteps() {
         step.appendChild(spanForLine);
     }
     console.log(listInfo);
+}
+
+/**
+ * 
+ */
+function strikeSubTask() {
+
+    var subTaskName = takeComponentById("sub-task-name-on-step");
+    subTaskName.value = this.name;
+    subTaskInfo = this;
+    displaySteps();
+    var step = takeComponentById("enter-step");
+    step.value = "";
+    step.focus();
+
+    var isComplete = this.status;
+    if(!isComplete) {
+        this.status = Boolean(true);
+        alert(this.status);
+    }
 }

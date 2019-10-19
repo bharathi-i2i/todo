@@ -29,7 +29,7 @@ function init() {
  * @param {Function} resultOperation the function to be called if the event is triggered.
  */
 function addEventListeners(element,action,resultOperation) {
-    element.addEventListener(action,resultOperation)
+    element.bind(action,resultOperation);
 }
 
 /**
@@ -38,7 +38,7 @@ function addEventListeners(element,action,resultOperation) {
  * @param {String} id denotes the id of the element to be fetched.
  */
 function takeComponentById(id) {
-    return document.getElementById(id);
+    return $("#" + id);
 }
 
 /**
@@ -47,7 +47,7 @@ function takeComponentById(id) {
  * @param {String} className denotes the className of the element to be fetched.
  */
 function takeComponentByClassName(className) {
-    return document.getElementsByClassName(className);
+    return $("." + className);
 }
 
 /**
@@ -56,7 +56,7 @@ function takeComponentByClassName(className) {
  * @param {Element} element denotes type of element to be created.
  */
 function buildComponent(element) {
-    return document.createElement(element);
+    return $(document.createElement(element));
 }
 
 /**
@@ -73,18 +73,16 @@ function openMenu() {
     var leftMenu = takeComponentById("menu");
     var menuDiv = takeComponentById("menu-bar");
     var menuNames = takeComponentByClassName("left-side-menu");
-    if (leftMenu.value === "closed") {
-        menuDiv.setAttribute("class","menu-bar menu-bar-open");
-        leftMenu.value = "opened";
-        for ( var name in menuNames) {
-            menuNames[name].setAttribute("class","left-side-menu menu-name-visible");
-        }
+    if (leftMenu.val() === "closed") {
+        menuDiv.removeClass("menu-bar-close");
+        menuDiv.addClass("menu-bar-open");
+        leftMenu.val("opened");
+        menuNames.toggle();
     } else {
-        menuDiv.setAttribute("class","menu-bar menu-bar-close");
-        leftMenu.value = "closed";
-        for ( var menuName in menuNames) {
-            menuNames[menuName].setAttribute("class","left-side-menu menu-name-hide");
-        }
+        menuDiv.removeClass("menu-bar-open");
+        menuDiv.addClass("menu-bar-close");
+        leftMenu.val("closed");
+        menuNames.toggle();
     }
 }
 
@@ -95,12 +93,12 @@ function openMenuForPlusIcon() {
     var leftMenu = takeComponentById("menu");
     var menuDiv = takeComponentById("menu-bar");
     var menuNames = takeComponentByClassName("left-side-menu");
-    if (leftMenu.value === "closed") {
-        menuDiv.setAttribute("class","menu-bar menu-bar-open");
-        leftMenu.value = "opened";
-        for ( var menu in menuNames) {
-            menuNames[menu].setAttribute("class","left-side-menu menu-name-visible");
-        }
+    if (leftMenu.val() === "closed") {
+        menuDiv.removeClass("menu-bar-close");
+        menuDiv.addClass("menu-bar-open");
+        leftMenu.val("opened");
+        //menuNames.addClass("menu-name-visible");
+        menuNames.toggle();
     }
 }
 
@@ -116,21 +114,21 @@ function addTask(event) {
     var subTask = takeComponentById("sub-task");
     var stepBody = takeComponentById("step-body");
     var taskQuery = takeComponentById("enter-task");
-    if (event.keyCode === 13 && "" !== newListValue.value.trim()) {
-        subTaskBody.setAttribute("class","sub-task-body increase-sub-task-width");
-        stepBody.setAttribute("class","step-body reduce-step-width");
+    if (event.keyCode === 13 && "" !== newListValue.val().trim()) {
+        subTaskBody.attr("class","sub-task-body increase-sub-task-width");
+        stepBody.attr("class","step-body reduce-step-width");
         var newTask = {};
         newTask.id = generateId();
-        newTask.name = newListValue.value;
+        newTask.name = newListValue.val();
         newTask.status = Boolean(true);
         newTask.subTask = [];
         tasks.push(newTask);
-        subTask.innerHTML = "";
+        subTask.html("");
         displayTasks();
         taskName.value = newTask.name;
-        taskQuery.value = "";
+        taskQuery.val("");
         taskQuery.focus();
-        newListValue.value="";
+        newListValue.val("");
     }
 }
 
@@ -141,15 +139,15 @@ function addTask(event) {
  */
 function addSubTask(event) {
     var subTaskQuery = takeComponentById("enter-task");
-    if (event.keyCode === 13 && "" !== subTaskQuery.value.trim()) {
+    if (event.keyCode === 13 && "" !== subTaskQuery.val().trim()) {
         var newSubTask = {};
         newSubTask.id = generateId();
-        newSubTask.name = subTaskQuery.value;
+        newSubTask.name = subTaskQuery.val();
         newSubTask.status = Boolean(false);
         newSubTask.steps = [];
         listInfo.subTask.push(newSubTask);
         displaySubTasks();
-        subTaskQuery.value="";
+        subTaskQuery.val("");
     }
 }
 
@@ -160,14 +158,14 @@ function addSubTask(event) {
  */
 function addStep(event) {
     var stepQuery = takeComponentById("enter-step");
-    if (event.keyCode === 13 && "" !== stepQuery.value.trim()) {
+    if (event.keyCode === 13 && "" !== stepQuery.val().trim()) {
         var newStep = {};
         newStep.id = generateId();
-        newStep.name = stepQuery.value;
+        newStep.name = stepQuery.val();
         newStep.status = Boolean(false);
         subTaskInfo.steps.push(newStep);
         displaySteps();
-        stepQuery.value="";
+        stepQuery.val("");
     }
 }
 
@@ -200,24 +198,24 @@ function updateSubTaskName(event) {
  */
 function displayTasks() {
     var task = takeComponentById("new-created-list");
-    task.innerHTML = "";
+    task.html("");
     var allTasks = tasks;
     for ( var index in tasks ) {
         var newCreatedDiv = buildComponent("div");
         var spanForImage = buildComponent("span");
         var spanListName = buildComponent("span");
         var listIcon = buildComponent("img");
-        listIcon.setAttribute("src","img/bullet-list.svg");
-        spanForImage.appendChild(listIcon);
-        newCreatedDiv.setAttribute("class","new-list");
+        listIcon.attr("src","img/bullet-list.svg");
+        listIcon.appendTo(spanForImage);
+        newCreatedDiv.attr("class","new-list");
         spanListName.className = "left-side-menu";
-        spanListName.setAttribute("class","left-side-menu menu-name-visible");
+        spanListName.attr("class","left-side-menu menu-name-visible");
         listInfo = tasks[index];
-        spanListName.innerHTML = listInfo.name;
+        spanListName.html(listInfo.name);
         addEventListeners(spanListName,"click",currentTask.bind(listInfo));
-        newCreatedDiv.appendChild(spanForImage);
-        newCreatedDiv.appendChild(spanListName);
-        task.appendChild(newCreatedDiv);
+        spanForImage.appendTo(newCreatedDiv);
+        spanListName.appendTo(newCreatedDiv);
+        newCreatedDiv.appendTo(task);
     }
 }
 
@@ -228,8 +226,8 @@ function displayTasks() {
 function currentTask() {
     var subTaskBody = takeComponentById("sub-task-body");
     var stepBody = takeComponentById("step-body");
-    subTaskBody.setAttribute("class","sub-task-body increase-sub-task-width");
-    stepBody.setAttribute("class","step-body reduce-step-width");
+    subTaskBody.attr("class","sub-task-body increase-sub-task-width");
+    stepBody.attr("class","step-body reduce-step-width");
     var taskName = takeComponentById("task-name-on-sub-task");
     taskName.value = this.name;
     listInfo = this;
@@ -245,17 +243,17 @@ function currentSubTask() {
     var isComplete = this.status;
     var check = takeComponentById("check-box");
     if(!isComplete) {
-        check.setAttribute("src","img/check-mark.svg");
-        subTaskName.setAttribute("class","sub-task-name-on-step non-strike")
+        check.attr("src","img/check-mark.svg");
+        subTaskName.attr("class","sub-task-name-on-step non-strike")
     } else {
-        check.setAttribute("src","img/check.svg");
-        subTaskName.setAttribute("class","sub-task-name-on-step strike")
+        check.attr("src","img/check.svg");
+        subTaskName.attr("class","sub-task-name-on-step strike")
     }
-    subTaskName.value = this.name;
+    subTaskName.val(this.name);
     subTaskInfo = this;
     displaySteps();
     var step = takeComponentById("enter-step");
-    step.value = "";
+    step.val("");
     step.focus();
 }
 
@@ -264,33 +262,33 @@ function currentSubTask() {
  */
 function displaySubTasks() {
     var subTask = takeComponentById("sub-task");
-    subTask.innerHTML = "";
+    subTask.html("");
     var allSubTasks = listInfo.subTask;
     for (var index in allSubTasks) {
         var isComplete = allSubTasks[index].status;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         var newCreatedDiv = buildComponent("div");
         var spanForImage = buildComponent("span");
         var spanListName = buildComponent("span");
-        spanListName.className = "middle-sub-task";
+        spanListName.addClass("middle-sub-task");
         var spanForLine = buildComponent("div");
         var listIcon = buildComponent("img");
         if (!isComplete) {
-            listIcon.setAttribute("src","img/check-mark.svg");
-            spanListName.setAttribute("class","middle-sub-task non-strike");
+            listIcon.attr("src","img/check-mark.svg");
+            spanListName.attr("class","middle-sub-task non-strike");
         } else {
-            listIcon.setAttribute("src","img/check.svg");
-            spanListName.setAttribute("class","middle-sub-task strike");
+            listIcon.attr("src","img/check.svg");
+            spanListName.attr("class","middle-sub-task strike");
         }
-        spanForImage.appendChild(listIcon);
-        newCreatedDiv.setAttribute("class","new-sub-task");
-        spanListName.innerHTML = allSubTasks[index].name;
+        listIcon.appendTo(spanForImage);
+        newCreatedDiv.attr("class","new-sub-task");
+        spanListName.html(allSubTasks[index].name);
         addEventListeners(spanForImage,"click",strikeSubTask.bind(allSubTasks[index]));
         addEventListeners(spanListName,"click",currentSubTask.bind(allSubTasks[index]));
-        newCreatedDiv.appendChild(spanForImage);
-        newCreatedDiv.appendChild(spanListName);
-        spanForLine.className = "background-lines";
-        subTask.appendChild(newCreatedDiv);
-        subTask.appendChild(spanForLine);
+        spanForImage.appendTo(newCreatedDiv);
+        spanListName.appendTo(newCreatedDiv);
+        spanForLine.addClass("background-lines");
+        newCreatedDiv.appendTo(subTask);
+        spanForLine.appendTo(subTask);
     }
 }
 
@@ -300,35 +298,35 @@ function displaySubTasks() {
 function displaySteps() {
     var stepName = takeComponentById("step-name");
     var subTaskBody = takeComponentById("sub-task-body");
-    subTaskBody.setAttribute("class","sub-task-body reduce-width");
+    subTaskBody.attr("class","sub-task-body reduce-width");
     var stepBody = takeComponentById("step-body");
-    stepBody.setAttribute("class","step-body increase-width");
-    stepName.innerHTML = "";
+    stepBody.attr("class","step-body increase-width");
+    stepName.html("");
     var allSteps = subTaskInfo.steps;
     for (var index in allSteps) {
         var isComplete = allSteps[index].status;
         var newCreatedDiv = buildComponent("div");
         var spanForImage = buildComponent("span");
         var spanListName = buildComponent("span");
-        spanListName.className = "step-info";
+        spanListName.addClass("step-info");
         var spanForLine = buildComponent("div");
         var listIcon = buildComponent("img");
         if (!isComplete) {
-            listIcon.setAttribute("src","img/check-mark.svg");
-            spanListName.setAttribute("class","step-info non-strike");
+            listIcon.attr("src","img/check-mark.svg");
+            spanListName.attr("class","step-info non-strike");
         } else {
-            listIcon.setAttribute("src","img/check.svg");
-            spanListName.setAttribute("class","step-info strike");
+            listIcon.attr("src","img/check.svg");
+            spanListName.attr("class","step-info strike");
         }
-        spanForImage.appendChild(listIcon);
-        newCreatedDiv.setAttribute("class","new-step");
-        spanListName.innerHTML = allSteps[index].name;
+        listIcon.appendTo(spanForImage);
+        newCreatedDiv.attr("class","new-step");
+        spanListName.html(allSteps[index].name);
         addEventListeners(spanForImage,"click",strikeStep.bind(allSteps[index]));
-        newCreatedDiv.appendChild(spanForImage);
-        newCreatedDiv.appendChild(spanListName);
-        spanForLine.className = "background-lines";
-        step.appendChild(newCreatedDiv);
-        step.appendChild(spanForLine);
+        spanForImage.appendTo(newCreatedDiv);
+        spanListName.appendTo(newCreatedDiv);
+        spanForLine.addClass("background-lines");
+        newCreatedDiv.appendTo(step);
+        spanForLine.appendTo(step);
     }
 }
 
@@ -341,16 +339,16 @@ function strikeSubTask() {
     var isComplete = this.status;
     if(!isComplete) {
         this.status = Boolean(true);
-        check.setAttribute("src","img/check.svg");
-        subTaskName.setAttribute("class","sub-task-name-on-step strike");
+        check.attr("src","img/check.svg");
+        subTaskName.attr("class","sub-task-name-on-step strike");
         displaySubTasks();
     } else {
         this.status = Boolean(false);
-        check.setAttribute("src","img/check-mark.svg");
-        subTaskName.setAttribute("class","sub-task-name-on-step non-strike");
+        check.attr("src","img/check-mark.svg");
+        subTaskName.attr("class","sub-task-name-on-step non-strike");
         displaySubTasks();
     }
-    subTaskName.value = this.name;
+    subTaskName.val(this.name);
     subTaskInfo = this;
     displaySteps();
 }

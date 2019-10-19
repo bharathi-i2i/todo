@@ -21,6 +21,7 @@ body {
 }
 img {
     width:1rem;
+    cursor: pointer;
 }
 .search-bar {
     display: flex;
@@ -84,6 +85,7 @@ ul {
     font-size: 0.87rem;
     color:#34373d;
     display: none;
+    cursor: pointer;
 }
 .step-menu {
     font-size: 0.77rem;
@@ -133,8 +135,8 @@ input[type="text"]::placeholder{
 .new-list {
     display: flex;
     padding-bottom: 1.3rem;
+    cursor: pointer;
 }
-
 .sub-task-body {
     background-color: #ffffff;
     height: 117.3%;
@@ -186,6 +188,7 @@ input[type="text"]::placeholder{
 }
 .middle-sub-task, .enter-task, .step-info, .step-input{
     padding-left:1rem;
+    cursor: pointer;
 }
 .sub-task-input {
     width: 90%;

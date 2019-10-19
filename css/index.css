@@ -119,7 +119,7 @@ li {
 div#add-task {
     padding-left: 0.5rem;
 }
-div#new-created-list {
+.new-created-list {
     margin-top: 1rem;
 }
 input[type="text"] {
@@ -205,4 +205,10 @@ input[type="text"]::placeholder{
 }
 .strike {
     text-decoration: line-through;
+}
+.non-strike {
+    text-decoration: none;
+}
+.check-box {
+    margin-left: 1rem;
 }

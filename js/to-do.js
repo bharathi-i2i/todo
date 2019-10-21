@@ -2,9 +2,9 @@
 init();
 
 var tasks = [];
-var listInfo = "";
-var subTaskInfo = "";
-var stepInfo = "";
+var listInfo;
+var subTaskInfo;
+var stepInfo;
 
 var step = takeComponentById("step-name");
 
@@ -33,7 +33,7 @@ function addEventListeners(element,action,resultOperation) {
 }
 
 /**
- * Used to get the element by the help of the id. 
+ * Used to get the element by the help of the id.
  * 
  * @param {String} id denotes the id of the element to be fetched.
  */
@@ -112,11 +112,10 @@ function addTask(event) {
     var taskName = takeComponentById("task-name-on-sub-task");
     var subTaskBody = takeComponentById("sub-task-body");
     var subTask = takeComponentById("sub-task");
-    var stepBody = takeComponentById("step-body");
     var taskQuery = takeComponentById("enter-task");
     if (event.keyCode === 13 && "" !== newListValue.val().trim()) {
         subTaskBody.attr("class","sub-task-body increase-sub-task-width");
-        stepBody.attr("class","step-body reduce-step-width");
+        reduceStepWidth();
         var newTask = {};
         newTask.id = generateId();
         newTask.name = newListValue.val();
@@ -125,7 +124,7 @@ function addTask(event) {
         tasks.push(newTask);
         subTask.html("");
         displayTasks();
-        taskName.value = newTask.name;
+        taskName.val(newTask.name);
         taskQuery.val("");
         taskQuery.focus();
         newListValue.val("");
@@ -176,7 +175,9 @@ function addStep(event) {
  */
 function updateTaskName(event) {
     if (event.keyCode === 13) {
-        listInfo.name = takeComponentById("task-name-on-sub-task").value;
+        listInfo.name = takeComponentById("task-name-on-sub-task").val();
+        console.log(listInfo);
+        console.log(tasks);
         displayTasks();
     }
 }
@@ -188,7 +189,7 @@ function updateTaskName(event) {
  */
 function updateSubTaskName(event) {
     if (event.keyCode === 13) {
-        subTaskInfo.name = takeComponentById("sub-task-name-on-step").value;
+        subTaskInfo.name = takeComponentById("sub-task-name-on-step").val();
         displaySubTasks();
     }
 }
@@ -199,7 +200,6 @@ function updateSubTaskName(event) {
 function displayTasks() {
     var task = takeComponentById("new-created-list");
     task.html("");
-    var allTasks = tasks;
     for ( var index in tasks ) {
         var newCreatedDiv = buildComponent("div");
         var spanForImage = buildComponent("span");
@@ -211,6 +211,7 @@ function displayTasks() {
         spanListName.className = "left-side-menu";
         spanListName.attr("class","left-side-menu menu-name-visible");
         listInfo = tasks[index];
+        console.log(listInfo);
         spanListName.html(listInfo.name);
         addEventListeners(spanListName,"click",currentTask.bind(listInfo));
         spanForImage.appendTo(newCreatedDiv);
@@ -225,11 +226,10 @@ function displayTasks() {
  */
 function currentTask() {
     var subTaskBody = takeComponentById("sub-task-body");
-    var stepBody = takeComponentById("step-body");
     subTaskBody.attr("class","sub-task-body increase-sub-task-width");
-    stepBody.attr("class","step-body reduce-step-width");
+    reduceStepWidth();
     var taskName = takeComponentById("task-name-on-sub-task");
-    taskName.value = this.name;
+    taskName.val(this.name);
     listInfo = this;
     displaySubTasks();
 }
@@ -299,8 +299,7 @@ function displaySteps() {
     var stepName = takeComponentById("step-name");
     var subTaskBody = takeComponentById("sub-task-body");
     subTaskBody.attr("class","sub-task-body reduce-width");
-    var stepBody = takeComponentById("step-body");
-    stepBody.attr("class","step-body increase-width");
+    increaseStepWidth();
     stepName.html("");
     var allSteps = subTaskInfo.steps;
     for (var index in allSteps) {
@@ -348,6 +347,7 @@ function strikeSubTask() {
         subTaskName.attr("class","sub-task-name-on-step non-strike");
         displaySubTasks();
     }
+    displaySubTasks();
     subTaskName.val(this.name);
     subTaskInfo = this;
     displaySteps();
@@ -364,4 +364,26 @@ function strikeStep() {
         this.status = Boolean(false);
     }
     displaySteps();
+}
+
+/**
+ * Used to increase the width of step contained div while sub tasks clicked.
+ */
+function increaseStepWidth() {
+    var stepBody = takeComponentById("step-body");
+    var shareWidth = takeComponentById("middle-heading-share");
+    shareWidth.removeClass("middle-heading-share-increase");
+    shareWidth.addClass("middle-heading-share");
+    stepBody.attr("class","step-body increase-width");
+}
+
+/**
+ * Used to reduce the width of step contained div while sub tasks clicked.
+ */
+function reduceStepWidth() {
+    var stepBody = takeComponentById("step-body");
+    stepBody.attr("class","step-body reduce-step-width");
+    var shareWidth = takeComponentById("middle-heading-share");
+    shareWidth.removeClass("middle-heading-share");
+    shareWidth.addClass("middle-heading-share-increase");
 }

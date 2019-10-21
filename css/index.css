@@ -100,6 +100,9 @@ ul {
 .middle-heading-share {
     padding: 2rem 0rem 0rem 27rem;
 }
+.middle-heading-share-increase {
+    padding: 2rem 0rem 0rem 52rem;
+}
 li {
     padding-bottom: 1.3rem;
 }
@@ -150,6 +153,7 @@ input[type="text"]::placeholder{
     width: 0%;
     height: 117.3%;
     overflow: hidden;
+        
 }
 .reduce-width {
     width: 70%;
